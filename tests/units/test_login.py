@@ -1,4 +1,4 @@
-from tests.units.conftest import client, valid_email
+from tests.conftest import client, valid_email
 
 
 def test_should_login_with_correct_email_and_status_code_200(client, valid_email):

@@ -1,4 +1,4 @@
-from tests.units.conftest import client
+from tests.conftest import client
 
 def test_logout_should_redirect(client):
     response = client.get('/logout')
