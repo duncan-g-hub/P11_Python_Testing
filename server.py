@@ -25,9 +25,12 @@ def index():
     return render_template('index.html')
 
 @app.route('/showSummary',methods=['POST'])
-def showSummary():
-    club = [club for club in clubs if club['email'] == request.form['email']][0]
-    return render_template('welcome.html',club=club,competitions=competitions)
+def show_summary():
+    for club in clubs:
+        if club['email'] == request.form['email']:
+            return render_template('welcome.html',club=club,competitions=competitions)
+    return render_template('index.html', message="You do not have access to booking.")
+
 
 
 @app.route('/book/<competition>/<club>')
