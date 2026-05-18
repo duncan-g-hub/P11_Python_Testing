@@ -1,6 +1,7 @@
 from tests.conftest import client, valid_club, valid_competition
 
 
+
 def test_book_should_return_booking_page_with_valid_competiton_and_club(client, valid_competition, valid_club):
     competition_name = valid_competition["name"]
     club_name = valid_club["name"]
@@ -32,7 +33,6 @@ def test_book_should_redirect_index_with_invalid_club_and_competition(client):
     assert response.status_code == 200
     assert 'Registration Portal' in response.data.decode()
     assert 'Something went wrong-please try again' in response.data.decode()
-
 
 
 
@@ -89,15 +89,61 @@ def test_purchase_places_should_redirect_index_page_with_invalid_competiton_and_
 
 
 
+def test_purchase_places_should_deduct_places_and_points_with_valid_competition_and_club(
+        client, valid_club, valid_competition):
+    competition_name = valid_competition["name"]
+    club_name = valid_club["name"]
+    places_before = int(valid_competition["number_of_places"])
+    points_before = int(valid_club["points"])
+    number_of_place = "4"
+    client.post(f'/purchase-places', data={'places': number_of_place,
+                                           'competition_name': competition_name,
+                                           'club_name': club_name})
 
-# consommation des points du club lors de la reservation
-# pas de consommation des points si mauvais club ou mauvaise competition
+    assert int(valid_competition["number_of_places"]) == places_before - int(number_of_place)
+    assert int(valid_club["points"]) == points_before - int(number_of_place)
 
-# consommation du nombre de places dispo sur la competition lors de la reservation
-# pas de consommation des places si mauvais club ou competition
+def test_purchase_places_should_not_deduct_places_and_points_with_invalid_competition_and_club(
+        client, valid_club, valid_competition):
+    competition_name = "invalid_competition_name"
+    club_name = "invalid_club_name"
+    places_before = int(valid_competition["number_of_places"])
+    points_before = int(valid_club["points"])
+    number_of_place = "4"
+    client.post(f'/purchase-places', data={'places': number_of_place,
+                                           'competition_name': competition_name,
+                                           'club_name': club_name})
 
+    assert int(valid_competition["number_of_places"]) == places_before
+    assert int(valid_club["points"]) == points_before
 
+def test_purchase_places_should_not_deduct_places_and_points_with_invalid_competition_and_valid_club(
+        client, valid_club, valid_competition):
+    competition_name = "invalid_competition_name"
+    club_name = valid_club["name"]
+    places_before = int(valid_competition["number_of_places"])
+    points_before = int(valid_club["points"])
+    number_of_place = "4"
+    client.post(f'/purchase-places', data={'places': number_of_place,
+                                           'competition_name': competition_name,
+                                           'club_name': club_name})
 
+    assert int(valid_competition["number_of_places"]) == places_before
+    assert int(valid_club["points"]) == points_before
+
+def test_purchase_places_should_not_deduct_places_and_points_with_valid_competition_and_invalid_club(
+        client, valid_club, valid_competition):
+    competition_name = valid_competition["name"]
+    club_name = "invalid_club_name"
+    places_before = int(valid_competition["number_of_places"])
+    points_before = int(valid_club["points"])
+    number_of_place = "4"
+    client.post(f'/purchase-places', data={'places': number_of_place,
+                                           'competition_name': competition_name,
+                                           'club_name': club_name})
+
+    assert int(valid_competition["number_of_places"]) == places_before
+    assert int(valid_club["points"]) == points_before
 
 
 

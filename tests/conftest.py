@@ -2,6 +2,7 @@ import pytest
 import json
 import threading
 
+import server
 from server import app
 
 @pytest.fixture
@@ -11,21 +12,18 @@ def client():
 
 @pytest.fixture
 def valid_email():
-    with open('clubs.json') as c:
-        clubs = json.load(c)['clubs']
-    return clubs[0]['email']
+    import server
+    return server.clubs[0]["email"]
 
 @pytest.fixture
 def valid_club():
-    with open('clubs.json') as c:
-        clubs = json.load(c)['clubs']
-    return clubs[0]
+    import server
+    return server.clubs[0]
 
 @pytest.fixture
 def valid_competition():
-    with open('competitions.json') as c:
-        competitions = json.load(c)['competitions']
-    return competitions[0]
+    import server
+    return server.competitions[0]
 
 
 @pytest.fixture(scope="session") # fixture créée qu'une seule fois pour toute la session de tests
