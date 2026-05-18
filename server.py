@@ -72,6 +72,7 @@ def purchase_places():
         # if place reservé > place dispo
         # elif place reservé > nb points
         # elif place reservé > 12
+        # elif place reservé < 0
         # else
         selected_competition['number_of_places'] = int(selected_competition['number_of_places']) - booked_places
         selected_club["points"] = int(selected_club["points"]) - booked_places
@@ -84,6 +85,7 @@ def purchase_places():
         flash("Something went wrong-please try again")
         return redirect(url_for('index'))
 
+# Gestion sauvegarde des fichiers json
 
 # TODO: Add route for points display
 
