@@ -15,6 +15,18 @@ def valid_email():
         clubs = json.load(c)['clubs']
     return clubs[0]['email']
 
+@pytest.fixture
+def valid_club():
+    with open('clubs.json') as c:
+        clubs = json.load(c)['clubs']
+    return clubs[0]
+
+@pytest.fixture
+def valid_competition():
+    with open('competitions.json') as c:
+        competitions = json.load(c)['competitions']
+    return competitions[0]
+
 
 @pytest.fixture(scope="session") # fixture créée qu'une seule fois pour toute la session de tests
 def live_server_url():
