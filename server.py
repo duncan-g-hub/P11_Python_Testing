@@ -39,10 +39,12 @@ def book(competition_name,club_name):
     for club in clubs:
         if club['name'] == club_name:
             found_club = club
+
     found_competition = None
     for competition in competitions:
         if competition['name'] == competition_name:
             found_competition = competition
+
     if found_club and found_competition:
         return render_template('booking.html',club=found_club,competition=found_competition)
     else:
@@ -57,11 +59,10 @@ def purchase_places():
     for competition in competitions:
         if competition['name'] == request.form['competition']:
             competition['number_of_places'] -= booked_places
-            selected_competition = competition
 
     for club in clubs:
         if club['name'] == request.form['club']:
-            # club["points"] -= booked_places
+            club["points"] -= booked_places
             selected_club = club
 
     flash('Great-booking complete!')
