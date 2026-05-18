@@ -47,10 +47,11 @@ def book(competition_name,club_name):
 
     if found_club and found_competition:
         return render_template('booking.html',club=found_club,competition=found_competition)
-    else:
+    elif found_club and not found_competition:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=found_club, competitions=competitions)
-
+    else:
+        return render_template('index.html', message="Something went wrong-please try again")
 
 @app.route('/purchase-places',methods=['POST'])
 def purchase_places():
