@@ -20,17 +20,20 @@ app.secret_key = 'something_special'
 competitions = load_competitions()
 clubs = load_clubs()
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/show-summary',methods=['POST'])
 def show_summary():
     for club in clubs:
         if club['email'] == request.form['email']:
             return render_template('welcome.html',club=club,competitions=competitions)
-    return render_template('index.html', message="You do not have access to booking.")
 
+    flash("You do not have access to booking.")
+    return redirect(url_for('index'))
 
 
 @app.route('/book/<competition_name>/<club_name>')
@@ -51,7 +54,9 @@ def book(competition_name,club_name):
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=found_club, competitions=competitions)
     else:
-        return render_template('index.html', message="Something went wrong-please try again")
+        flash("Something went wrong-please try again")
+        return redirect(url_for('index'))
+
 
 @app.route('/purchase-places',methods=['POST'])
 def purchase_places():
