@@ -1,8 +1,6 @@
 import pytest
-import json
 import threading
 
-import server
 from server import app
 
 @pytest.fixture
