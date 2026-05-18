@@ -58,11 +58,11 @@ def purchase_places():
 
     for competition in competitions:
         if competition['name'] == request.form['competition']:
-            competition['number_of_places'] -= booked_places
+            competition['number_of_places'] = int(competition['number_of_places']) - booked_places
 
     for club in clubs:
         if club['name'] == request.form['club']:
-            club["points"] -= booked_places
+            club["points"] = int(club["points"]) - booked_places
             selected_club = club
 
     flash('Great-booking complete!')
