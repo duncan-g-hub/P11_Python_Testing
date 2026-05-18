@@ -42,12 +42,10 @@ def book(competition_name,club_name):
     for club in clubs:
         if club['name'] == club_name:
             found_club = club
-
     found_competition = None
     for competition in competitions:
         if competition['name'] == competition_name:
             found_competition = competition
-
     if found_club and found_competition:
         return render_template('booking.html',club=found_club,competition=found_competition)
     elif found_club and not found_competition:
@@ -60,19 +58,31 @@ def book(competition_name,club_name):
 
 @app.route('/purchase-places',methods=['POST'])
 def purchase_places():
-    booked_places = int(request.form['places'])
-
+    selected_competition = None
     for competition in competitions:
         if competition['name'] == request.form['competition_name']:
-            competition['number_of_places'] = int(competition['number_of_places']) - booked_places
-
+            selected_competition = competition
+    selected_club = None
     for club in clubs:
         if club['name'] == request.form['club_name']:
-            club["points"] = int(club["points"]) - booked_places
             selected_club = club
+    booked_places = int(request.form['places'])
 
-    flash('Great-booking complete!')
-    return render_template('welcome.html', club=selected_club, competitions=competitions)
+    if selected_club and selected_competition:
+        # if place reservé > place dispo
+        # elif place reservé > nb points
+        # elif place reservé > 12
+        # else
+        selected_competition['number_of_places'] = int(selected_competition['number_of_places']) - booked_places
+        selected_club["points"] = int(selected_club["points"]) - booked_places
+        flash('Great-booking complete!')
+        return render_template('welcome.html', club=selected_club, competitions=competitions)
+    elif selected_club and not selected_competition:
+        flash("Something went wrong-please try again")
+        return render_template('welcome.html', club=selected_club, competitions=competitions)
+    else:
+        flash("Something went wrong-please try again")
+        return redirect(url_for('index'))
 
 
 # TODO: Add route for points display
