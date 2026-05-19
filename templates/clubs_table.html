@@ -9,10 +9,10 @@
     <ul>
         {% for club in clubs %}
         <li>
-            <p>{{ club['name'] }} <br>
-            Points : {{club['points']}}</p>
+            {{ club['name'] }} <br>
+            Points : {{club['points']}}
         </li>
-        <hr/> <br>
+        <hr/>
         {% endfor %}
     </ul>
 </body>
