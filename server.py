@@ -69,15 +69,30 @@ def purchase_places():
     booked_places = int(request.form['places'])
 
     if selected_club and selected_competition:
-        # if place reservé > place dispo
-        # elif place reservé > nb points
-        # elif place reservé > 12
-        # elif place reservé < 0
-        # else
-        selected_competition['number_of_places'] = int(selected_competition['number_of_places']) - booked_places
-        selected_club["points"] = int(selected_club["points"]) - booked_places
-        flash('Great-booking complete!')
-        return render_template('welcome.html', club=selected_club, competitions=competitions)
+        if booked_places > int(selected_competition['number_of_places']):
+            flash(f"You can't book this number of places. "
+                  f"This competition have {selected_competition['number_of_places']} places remaining.")
+            return render_template('booking.html',
+                                   club=selected_club, competition=selected_competition)
+        elif booked_places > int(selected_club["points"]):
+            flash(f"You can't book this number of places with your club points. "
+                  f"You have {selected_club["points"]} points.")
+            return render_template('booking.html',
+                                   club=selected_club, competition=selected_competition)
+        elif booked_places > 12:
+            flash("You can't book more than 12 number of places")
+            return render_template('booking.html',
+                                   club=selected_club, competition=selected_competition)
+        elif booked_places < 0:
+            flash("You can't book a negative number of places")
+            return render_template('booking.html',
+                                   club=selected_club, competition=selected_competition)
+        else:
+            selected_competition['number_of_places'] = int(selected_competition['number_of_places']) - booked_places
+            selected_club["points"] = int(selected_club["points"]) - booked_places
+            flash('Great-booking complete!')
+            return render_template('welcome.html', club=selected_club, competitions=competitions)
+
     elif selected_club and not selected_competition:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=selected_club, competitions=competitions)
