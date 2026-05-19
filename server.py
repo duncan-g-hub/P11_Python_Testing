@@ -100,7 +100,8 @@ def purchase_places():
         flash("Something went wrong-please try again")
         return redirect(url_for('index'))
 
-# Gestion sauvegarde des fichiers json
+
+# Gestion sauvegarde des fichiers json à chaque booking valide + Gestion chargement ?
 
 # TODO: Add route for points display
 
