@@ -11,16 +11,19 @@ def client():
 @pytest.fixture
 def valid_email():
     import server
+    server.clubs = server.load_clubs()
     return server.clubs[0]["email"]
 
 @pytest.fixture
 def valid_club():
     import server
+    server.clubs = server.load_clubs()
     return server.clubs[0]
 
 @pytest.fixture
 def valid_competition():
     import server
+    server.competitions = server.load_competitions()
     return server.competitions[0]
 
 

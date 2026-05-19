@@ -1,5 +1,5 @@
 from tests.conftest import client, valid_club, valid_competition
-
+import html # pour .unescape() -> permet de ne pas echapper les apostrophes issues du html
 
 
 def test_book_should_return_booking_page_with_valid_competiton_and_club(client, valid_competition, valid_club):
@@ -99,7 +99,6 @@ def test_purchase_places_should_deduct_places_and_points_with_valid_competition_
     client.post(f'/purchase-places', data={'places': number_of_place,
                                            'competition_name': competition_name,
                                            'club_name': club_name})
-
     assert int(valid_competition["number_of_places"]) == places_before - int(number_of_place)
     assert int(valid_club["points"]) == points_before - int(number_of_place)
 
@@ -113,7 +112,6 @@ def test_purchase_places_should_not_deduct_places_and_points_with_invalid_compet
     client.post(f'/purchase-places', data={'places': number_of_place,
                                            'competition_name': competition_name,
                                            'club_name': club_name})
-
     assert int(valid_competition["number_of_places"]) == places_before
     assert int(valid_club["points"]) == points_before
 
@@ -127,7 +125,6 @@ def test_purchase_places_should_not_deduct_places_and_points_with_invalid_compet
     client.post(f'/purchase-places', data={'places': number_of_place,
                                            'competition_name': competition_name,
                                            'club_name': club_name})
-
     assert int(valid_competition["number_of_places"]) == places_before
     assert int(valid_club["points"]) == points_before
 
@@ -141,13 +138,54 @@ def test_purchase_places_should_not_deduct_places_and_points_with_valid_competit
     client.post(f'/purchase-places', data={'places': number_of_place,
                                            'competition_name': competition_name,
                                            'club_name': club_name})
-
     assert int(valid_competition["number_of_places"]) == places_before
     assert int(valid_club["points"]) == points_before
 
 
 
+def test_purchase_places_should_not_work_with_nb_booked_places_superior_than_nb_competition_places(
+        client, valid_club, valid_competition):
+    competition_name = valid_competition["name"]
+    club_name = valid_club["name"]
+    comp_places = int(valid_competition["number_of_places"])
+    number_of_place = comp_places + 1
+    response = client.post(f'/purchase-places', data={'places': number_of_place,
+                                           'competition_name': competition_name,
+                                           'club_name': club_name})
+    assert (f"You can't book this number of places. This competition have {comp_places} places remaining."
+            in html.unescape(response.data.decode())) # permet de ne pas echapper les apostrophes issues du html
 
-# le nombre de places reservées ne peut pas etre superieure aux nombres de places de la competition
-# le nombre de places reservées ne peut pas etre superieure aux nombres de points du club
-# le nombre de places reservées ne peut pas etre superieure à 12
+def test_purchase_places_should_not_work_with_nb_booked_places_superior_than_nb_club_points(
+        client, valid_club, valid_competition):
+    competition_name = valid_competition["name"]
+    club_name = valid_club["name"]
+    club_points = int(valid_club["points"])
+    number_of_place = club_points + 1
+    response = client.post(f'/purchase-places', data={'places': number_of_place,
+                                                      'competition_name': competition_name,
+                                                      'club_name': club_name})
+    assert (f"You can't book this number of places with your club points. You have {club_points} points."
+            in html.unescape(response.data.decode()))
+
+def test_purchase_places_should_not_work_with_nb_booked_places_superior_than_12(
+        client, valid_club, valid_competition):
+    competition_name = valid_competition["name"]
+    club_name = valid_club["name"]
+    number_of_place = 13
+    response = client.post(f'/purchase-places', data={'places': number_of_place,
+                                                      'competition_name': competition_name,
+                                                      'club_name': club_name})
+    assert (f"You can't book more than 12 number of places"
+            in html.unescape(response.data.decode()))
+
+def test_purchase_places_should_not_work_with_negative_nb_booked_places(
+        client, valid_club, valid_competition):
+    competition_name = valid_competition["name"]
+    club_name = valid_club["name"]
+    number_of_place = -1
+    response = client.post(f'/purchase-places', data={'places': number_of_place,
+                                                      'competition_name': competition_name,
+                                                      'club_name': club_name})
+    assert (f"You can't book a negative number of places"
+            in html.unescape(response.data.decode()))
+
