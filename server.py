@@ -101,9 +101,10 @@ def purchase_places():
         return redirect(url_for('index'))
 
 
-# Gestion sauvegarde des fichiers json à chaque booking valide + Gestion chargement ?
+@app.route('/clubs-table')
+def clubs_table():
+    return render_template('clubs_table.html', clubs=clubs)
 
-# TODO: Add route for points display
 
 
 @app.route('/logout')
