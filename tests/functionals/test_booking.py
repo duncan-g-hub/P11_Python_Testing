@@ -32,3 +32,7 @@ def test_user_can_book_places_on_competition(browser, live_server_url, valid_ema
     assert "Great-booking complete!" in browser.page_source
     assert int(valid_competition["number_of_places"]) == places_before - int(number_of_place)
     assert int(valid_club["points"]) == points_before - int(number_of_place)
+
+    browser.find_element(By.LINK_TEXT, "Logout").click()
+    time.sleep(1)
+    assert "Registration Portal" in browser.page_source
