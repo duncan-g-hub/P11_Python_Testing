@@ -106,7 +106,6 @@ def clubs_table():
     return render_template('clubs_table.html', clubs=clubs)
 
 
-
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
