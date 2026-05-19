@@ -69,22 +69,22 @@ def purchase_places():
     booked_places = int(request.form['places'])
 
     if selected_club and selected_competition:
+        messages = []
         if booked_places > int(selected_competition['number_of_places']):
-            flash(f"You can't book this number of places. "
+            messages.append(f"You can't book this number of places. "
                   f"This competition have {selected_competition['number_of_places']} places remaining.")
-            return render_template('booking.html',
-                                   club=selected_club, competition=selected_competition)
-        elif booked_places > int(selected_club["points"]):
-            flash(f"You can't book this number of places with your club points. "
+        if booked_places > int(selected_club["points"]):
+            messages.append(f"You can't book this number of places with your club points. "
                   f"You have {selected_club["points"]} points.")
-            return render_template('booking.html',
-                                   club=selected_club, competition=selected_competition)
-        elif booked_places > 12:
-            flash("You can't book more than 12 number of places")
-            return render_template('booking.html',
-                                   club=selected_club, competition=selected_competition)
-        elif booked_places < 0:
-            flash("You can't book a negative number of places")
+        if booked_places > 12:
+            messages.append("You can't book more than 12 number of places")
+
+        if booked_places < 0:
+            messages.append("You can't book a negative number of places")
+
+        if messages:
+            for message in messages:
+                flash(message)
             return render_template('booking.html',
                                    club=selected_club, competition=selected_competition)
         else:
