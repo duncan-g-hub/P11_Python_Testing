@@ -4,6 +4,7 @@ email = "john@simplylift.co"
 competition = "Spring Festival"
 club = "Simply Lift"
 
+
 class ProjectPerfTest(HttpUser):
     @task
     def home(self):
