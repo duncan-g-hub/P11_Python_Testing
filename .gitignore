@@ -6,3 +6,4 @@ lib
 .idea/
 .envrc
 __pycache__
+.coverage
