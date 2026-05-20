@@ -93,7 +93,6 @@ source .venv/Scripts/activate
 .venv\Scripts\activate
 ```
 
-
 ---
 
 ### Install dependencies
@@ -173,6 +172,7 @@ locust -f tests/performance/locustfile.py
 Configuration : 
 ![config_locust.png](readme_img/config_locust.png)
 WinError 10048 failures are not related to the application. They are caused by a Windows limitation on TCP port exhaustion under heavy load.
+
 ---
 
 ### Test coverage
