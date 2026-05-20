@@ -3,10 +3,12 @@ import threading
 
 from server import app
 
+
 @pytest.fixture
 def client():
     with app.test_client() as client:
         yield client
+
 
 @pytest.fixture
 def valid_email():
@@ -14,11 +16,13 @@ def valid_email():
     server.clubs = server.load_clubs()
     return server.clubs[0]["email"]
 
+
 @pytest.fixture
 def valid_club():
     import server
     server.clubs = server.load_clubs()
     return server.clubs[0]
+
 
 @pytest.fixture
 def valid_competition():
@@ -27,7 +31,7 @@ def valid_competition():
     return server.competitions[0]
 
 
-@pytest.fixture(scope="session") # fixture créée qu'une seule fois pour toute la session de tests
+@pytest.fixture(scope="session")  # fixture créée qu'une seule fois pour toute la session de tests
 def live_server_url():
     # Crée un thread séparé qui va exécuter app.run()
     thread = threading.Thread(target=lambda: app.run(port=5001, use_reloader=False))

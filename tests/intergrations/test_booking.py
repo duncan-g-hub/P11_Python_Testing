@@ -1,5 +1,5 @@
-from tests.conftest import client, valid_club, valid_competition
 import html
+
 
 def test_integration_book_then_purchase_places(client, valid_club, valid_competition):
     competition_name = valid_competition["name"]
@@ -22,6 +22,7 @@ def test_integration_book_then_purchase_places(client, valid_club, valid_competi
 
     assert int(valid_competition["number_of_places"]) == places_before - int(number_of_place)
     assert int(valid_club["points"]) == points_before - int(number_of_place)
+
 
 def test_integration_book_then_purchase_places_with_too_many_places(client, valid_club, valid_competition):
     competition_name = valid_competition["name"]

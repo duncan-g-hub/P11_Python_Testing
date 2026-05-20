@@ -7,9 +7,10 @@ from selenium.webdriver.common.by import By
 
 @pytest.fixture
 def browser():
-    driver  = webdriver.Chrome()
+    driver = webdriver.Chrome()
     yield driver
     driver.quit()
+
 
 def test_user_can_book_places_on_competition(browser, live_server_url, valid_email, valid_club, valid_competition):
     places_before = int(valid_competition["number_of_places"])

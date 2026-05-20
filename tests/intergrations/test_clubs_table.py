@@ -1,6 +1,3 @@
-from tests.conftest import client, valid_club, valid_competition
-
-
 def test_integration_purchase_places_then_clubs_table(client, valid_club, valid_competition):
     competition_name = valid_competition["name"]
     club_name = valid_club["name"]

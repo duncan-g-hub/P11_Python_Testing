@@ -1,17 +1,17 @@
 import json
-from flask import Flask,render_template,request,redirect,flash,url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
 
 
 def load_clubs():
     with open('clubs.json') as c:
-         club_list = json.load(c)['clubs']
-         return club_list
+        club_list = json.load(c)['clubs']
+        return club_list
 
 
 def load_competitions():
     with open('competitions.json') as comps:
-         competition_list = json.load(comps)['competitions']
-         return competition_list
+        competition_list = json.load(comps)['competitions']
+        return competition_list
 
 
 app = Flask(__name__)
@@ -26,18 +26,18 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/show-summary',methods=['POST'])
+@app.route('/show-summary', methods=['POST'])
 def show_summary():
     for club in clubs:
         if club['email'] == request.form['email']:
-            return render_template('welcome.html',club=club,competitions=competitions)
+            return render_template('welcome.html', club=club, competitions=competitions)
 
     flash("You do not have access to booking.")
     return redirect(url_for('index'))
 
 
 @app.route('/book/<competition_name>/<club_name>')
-def book(competition_name,club_name):
+def book(competition_name, club_name):
     found_club = None
     for club in clubs:
         if club['name'] == club_name:
@@ -47,7 +47,7 @@ def book(competition_name,club_name):
         if competition['name'] == competition_name:
             found_competition = competition
     if found_club and found_competition:
-        return render_template('booking.html',club=found_club,competition=found_competition)
+        return render_template('booking.html', club=found_club, competition=found_competition)
     elif found_club and not found_competition:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=found_club, competitions=competitions)
@@ -56,7 +56,7 @@ def book(competition_name,club_name):
         return redirect(url_for('index'))
 
 
-@app.route('/purchase-places',methods=['POST'])
+@app.route('/purchase-places', methods=['POST'])
 def purchase_places():
     selected_competition = None
     for competition in competitions:
@@ -72,10 +72,10 @@ def purchase_places():
         messages = []
         if booked_places > int(selected_competition['number_of_places']):
             messages.append(f"You can't book this number of places. "
-                  f"This competition have {selected_competition['number_of_places']} places remaining.")
+                            f"This competition have {selected_competition['number_of_places']} places remaining.")
         if booked_places > int(selected_club["points"]):
             messages.append(f"You can't book this number of places with your club points. "
-                  f"You have {selected_club["points"]} points.")
+                            f"You have {selected_club["points"]} points.")
         if booked_places > 12:
             messages.append("You can't book more than 12 number of places")
 

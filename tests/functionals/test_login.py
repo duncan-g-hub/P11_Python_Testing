@@ -8,9 +8,10 @@ from selenium.webdriver.common.by import By
 @pytest.fixture
 def browser():
     # ouvre chrome avec le driver correspondant
-    driver  = webdriver.Chrome()
+    driver = webdriver.Chrome()
     yield driver
     driver.quit()
+
 
 def test_user_can_login_and_see_dashboard(browser, live_server_url, valid_email):
     browser.get(f"{live_server_url}/")
