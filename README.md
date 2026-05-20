@@ -219,6 +219,10 @@ Branche utilisée pour l'ajout d'une route permettant la visualisation des point
 
 ---
 
+### QA
+Branche utilisée pour la révision du code.
+
+
 ## Contact
 
 Pour toute question :  
