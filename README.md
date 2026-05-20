@@ -1,51 +1,53 @@
-# P11 : Résolution de bugs python
+# P11 : Python Bug Fixes
 
-Projet réalisé dans le cadre du développement d'une application pour la société Güdlft.
-Il s'agit d'une application permettant coordonner les compétitions de force (deadlifting, strongman) en Amérique du Nord et en Australie.
-L'objectif de ce projet est la résolution de bugs bloquants ainsi que l'ajout d'une fonctionnalité de consultation des points des clubs.
----
+Project carried out as part of the development of an application for Güdlft.
+The application coordinates strength competitions (deadlifting, strongman) in North America and Australia.
 
-## Fonctionnalités
-
-- Authentification : connexion d'un club via son adresse email
-- Tableau de bord : affichage des compétitions disponibles et des points du club
-- Réservation : réservation de places pour une compétition avec les règles suivantes :
-  - Maximum 12 places par réservation
-  - Impossible de réserver plus de places que le solde de points du club
-  - Impossible de réserver plus de places que les places restantes de la compétition
-  - Impossible de réserver un nombre négatif de places
-- Tableau des clubs : consultation publique des clubs et de leurs points
-- Déconnexion : retour à la page d'accueil
+The goal of this project is to fix blocking bugs and add a feature to display club points.
 
 ---
 
-## Structure du projet
+## Features
+
+- Authentication: club login via email address
+- Dashboard: display of available competitions and club points
+- Booking: place reservation for a competition with the following rules:
+  - Maximum 12 places per booking
+  - Cannot book more places than the club's available points
+  - Cannot book more places than the competition's remaining places
+  - Cannot book a negative number of places
+- Clubs table: public display of clubs and their points
+- Logout: return to the home page
+
+---
+
+## Project Structure
 
 ```
 P11_Python_Testing/
 
-    readme_img/                             # Répertoire des images pour la documentation
-    templates/                              # Répertoire des gabarits html
-    tests/                                  # Répertoire de tests
-        functionals/                            # tests fonctionnels
-        integrations/                           # tests d'intégration
-        performance/                            # tests de performance
-        units/                                  # tests unitaires
-        conftest.py                             # Fichier de configuration des tests
-    .coveragerc                             # Fichier de configuration rapport coverage
-    .flake8                                 # Fichier de configuraiton rapport flake8
-    .gitignore                              # Liste des dossiers et fichiers à ignorer pour le repository
-    clubs.json                              # Base de données des clubs (format json)
-    competitions.json                       # Base de données des competitions (format json)
-    pytest.ini                              # Fichier de configuration rapport pytest
+    readme_img/                             # Documentation images
+    templates/                              # HTML templates
+    tests/                                  # Test directory
+        functionals/                            # Functional tests
+        integrations/                           # Integration tests
+        performance/                            # Performance tests
+        units/                                  # Unit tests
+        conftest.py                             # Test configuration file
+    .coveragerc                             # Coverage report configuration
+    .flake8                                 # Flake8 report configuration
+    .gitignore                              # Files and folders ignored by git
+    clubs.json                              # Clubs database (JSON format)
+    competitions.json                       # Competitions database (JSON format)
+    pytest.ini                              # Pytest configuration file
     README.md                               # Documentation
-    requirements.txt                        # Liste des dépendances
-    server.py                               # Code source de l'application
+    requirements.txt                        # Dependencies
+    server.py                               # Application source code
 ```
 
 ---
 
-## Technologies utilisées 
+## Technologies
 
 - Python / Flask : https://flask.palletsprojects.com/en/stable/
 - pytest : https://docs.pytest.org/en/stable/
@@ -57,20 +59,20 @@ P11_Python_Testing/
 
 ## Conventions 
 
-Respect des conventions de nommage et de style de la PEP8.
+Naming and style conventions follow PEP8.
 
 ---
 
 ## Installation
 
-### Prérequis :
+### Prerequisites
 
-- Python 3.10 ou plus récent
-- Connexion internet
+- Python 3.10 or newer
+- Internet connection
 
 ---
 
-### Cloner le repository : 
+### Clone the repository
 
 ```bash
 git clone https://github.com/duncan-g-hub/P11_Python_Testing.git
@@ -79,108 +81,122 @@ cd P11_Python_Testing
 
 ---
 
-### Installer et activer l'environnement virtuel 
+### Create and activate the virtual environment
 
 ```bash
-python -m venv .venv 
+python -m venv .venv
+
+# Git Bash
 source .venv/Scripts/activate
+
+# Windows CMD / PowerShell
+.venv\Scripts\activate
 ```
 
 ---
 
-### Installer les dépendances
+### Install dependencies
 
 ```bash
-pip install -r requirements.txt 
+pip install -r requirements.txt
 ```
 
 ---
 
-### Configurer et lancer le serveur Flask
+### Configure and run the Flask server
 
-Définir le fichier de lancement :
+Set the application entry point:
 ```bash
 export FLASK_APP=server.py
 ```
 
-Activer le mode debug (optionnel) :
+Enable debug mode (optional):
 ```bash
 export FLASK_DEBUG=1
 ```
 
-Lancer le serveur :
+Run the server:
 ```bash
 flask run
 ```
 
 ---
 
-## Tests 
+## Tests
 
-### Tests unitaires (tests/units/)
-Vérifient le comportement isolé de chaque route : 
-login, logout, booking, purchase, clubs table. 
-Chaque cas nominal et cas d'erreur est couvert individuellement.
-
----
-
-### Tests d'intégration (tests/integrations/)
-Vérifient les interactions entre les composants : 
-par exemple que la réservation met correctement à jour les points du club et les places de la compétition.
+### Unit tests (tests/units/)
+Verify the isolated behavior of each route:
+login, logout, booking, purchase, clubs table.
+Each nominal case and error case is covered individually.
 
 ---
 
-### Tests fonctionnels (tests/functionals/)
-Vérifient les parcours utilisateur de bout en bout : connexion, réservation complète, déconnexion.
+### Integration tests (tests/integrations/)
+Verify interactions between components:
+for example, that a booking correctly updates the club's points and the competition's remaining places.
 
 ---
 
-### Tests de performance (tests/performance/)
-Réalisés avec Locust avec 6 utilisateurs simultanés. Vérifient que : 
-- Le temps de chargement des pages ne dépasse pas 5 secondes
-- Les mises à jour (POST) ne dépassent pas 2 secondes
+### Functional tests (tests/functionals/)
+Verify end-to-end user flows: login, complete booking, logout.
 
-Résultats :
+---
+
+### Performance tests (tests/performance/)
+Run with Locust with 6 simultaneous users. Verify that:
+- Page load time does not exceed 5 seconds
+- Updates (POST) do not exceed 2 seconds
+
+Results:
 ![results_graph_locust.png](readme_img/results_graph_locust.png)
 ![results_table_locus.png](readme_img/results_table_locus.png)
 
 ---
 
-### Lancement des tests 
-Lancer les tests unitaires, d'intégration et fonctionnels :
+### Running the tests
 
-```pytest```
+Run unit, integration and functional tests:
 
-De potentielles alertes peuvent etre levées. 
-Elles sont liées à des problèmes de versions des packages. Et sont masquées via le fichier pytest.ini
+```bash
+pytest
+```
 
-Lancer les tests de performance (le serveur flask doit etre lancé) :
+Some warnings may be raised. They are related to package version compatibility issues and are suppressed via the pytest.ini file.
 
-```locust -f tests/performance/locustfile.py```
+Run performance tests (Flask server must be running):
 
-configuration : 
+```bash
+locust -f tests/performance/locustfile.py
+```
+
+Configuration : 
 ![config_locust.png](readme_img/config_locust.png)
-Les fails : WinError 10048 ne sont pas liés à l'application, mais à une limitation Windows sur l'épuisement des ports TCP sous forte charge.
+WinError 10048 failures are not related to the application. They are caused by a Windows limitation on TCP port exhaustion under heavy load.
 
 ---
 
-### Couverture des tests
-Lancer le rapport de couverture des tests dans le terminal :
+### Test coverage
 
-```pytest --cov=.```
+Run the coverage report in the terminal:
 
-Lancer le rapport de couverture des tests sous format html :
+```bash
+pytest --cov=.
+```
 
-```pytest --cov=. --cov-report html```
+Run the coverage report in HTML format:
 
-Résultats :
+```bash
+pytest --cov=. --cov-report html
+```
+
+Results:
 ![results_coverage.png](readme_img/results_coverage.png)
 
 ---
 
-## Qualité du code
+## Code Quality
 
-Lancer l'analyse flake8 :
+Run the flake8 analysis:
 ```bash
 flake8
 ```
@@ -190,42 +206,42 @@ flake8
 ## Branches 
 
 ### Master
-Branche principale, correspondant à l'état de l'application en production.
+Main branch, corresponding to the production state of the application.
 
 ---
 
 ### bug/error-500-when-logging-with-wrong-email
-Branche utilisée pour la résolution d'un bug générant une erreur 500 lors du logging avec un email incorrect.
+Used to fix a bug generating a 500 error when logging in with an incorrect email.
 
 ---
 
 ### bug/available_points_not_deducted
-Branche utilisée pour la résolution d'un bug empêchant la déduction de points des clubs lors de la réservation de places d'une compétition.
-
+Used to fix a bug preventing club points from being deducted when booking competition places.
 
 ---
 
 ### bug/missing-conditions-to-use-points
-Branche utilisée pour la résolution de bugs liés aux conditions de dépense de points des clubs : 
-- Un club ne peut pas dépenser plus de points qu'il n'en possède.
-- Un club ne peut pas dépenser plus de points qu'il y a de place disponible au sein d'une compétition. 
-- Un club ne peut pas dépenser plus de 12 points pour une compétition. 
-- Un club ne peut pas dépenser un nombre de points négatif. 
+Used to fix bugs related to club point spending conditions:
+- A club cannot spend more points than it owns.
+- A club cannot spend more points than the number of available places in a competition.
+- A club cannot spend more than 12 points per competition.
+- A club cannot spend a negative number of points.
 
 ---
 
 ### feature/table-to-display-clubs-points
-Branche utilisée pour l'ajout d'une route permettant la visualisation des points de chaque club.
+Used to add a route allowing the display of each club's points.
 
 ---
 
 ### QA
-Branche utilisée pour la révision du code.
+Used for code review.
 
+---
 
 ## Contact
 
-Pour toute question :  
+For any questions:  
 Duncan GAURAT - duncan.dev@outlook.fr
 
 
