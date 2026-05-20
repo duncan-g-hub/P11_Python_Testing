@@ -2,7 +2,9 @@
 
 Projet réalisé dans le cadre du développement d'une application pour la société Güdlft.
 Il s'agit d'une application permettant coordonner les compétitions de force (deadlifting, strongman) en Amérique du Nord et en Australie.
+
 L'objectif de ce projet est la résolution de bugs bloquants ainsi que l'ajout d'une fonctionnalité de consultation des points des clubs.
+
 ---
 
 ## Fonctionnalités
