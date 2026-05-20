@@ -3,12 +3,14 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 
 
 def load_clubs():
+    """Load and return the list of clubs from the clubs.json file."""
     with open('clubs.json') as c:
         club_list = json.load(c)['clubs']
         return club_list
 
 
 def load_competitions():
+    """Load and return the list of competitions from the competitions.json file."""
     with open('competitions.json') as comps:
         competition_list = json.load(comps)['competitions']
         return competition_list
@@ -23,11 +25,19 @@ clubs = load_clubs()
 
 @app.route('/')
 def index():
+    """Render the home page."""
     return render_template('index.html')
 
 
 @app.route('/show-summary', methods=['POST'])
 def show_summary():
+    """
+    Authenticate a club by email and display its dashboard.
+
+    Looks up the club matching the submitted email. If found, renders the
+    welcome page with the club's data and available competitions. Otherwise,
+    flashes an error and redirects to the home page.
+        """
     for club in clubs:
         if club['email'] == request.form['email']:
             return render_template('welcome.html', club=club, competitions=competitions)
@@ -38,6 +48,18 @@ def show_summary():
 
 @app.route('/book/<competition_name>/<club_name>')
 def book(competition_name, club_name):
+    """
+    Render the booking page for a given competition and club.
+
+    Looks up the competition and club by name. If both are found, renders the
+    booking form. If only the club is found, flashes an error and redirects to
+    the welcome page. If neither is found, flashes an error and redirects to
+    the home page.
+
+    Args:
+        competition_name (str): The name of the competition to book.
+        club_name (str): The name of the club making the booking.
+    """
     found_club = None
     for club in clubs:
         if club['name'] == club_name:
@@ -58,6 +80,21 @@ def book(competition_name, club_name):
 
 @app.route('/purchase-places', methods=['POST'])
 def purchase_places():
+    """
+    Handle the purchase of places in a competition.
+
+    Validates the number of places requested against the following rules:
+    - Cannot exceed the number of remaining places in the competition.
+    - Cannot exceed the club's available points.
+    - Cannot be more than 12.
+    - Cannot be negative.
+
+    If validation passes, deducts the booked places from both the competition
+    and the club's points, then renders the welcome page with a success message.
+    If validation fails, flashes error messages and re-renders the booking form.
+    If the club or competition is not found, flashes an error and redirects
+    accordingly.
+    """
     selected_competition = None
     for competition in competitions:
         if competition['name'] == request.form['competition_name']:
@@ -103,9 +140,11 @@ def purchase_places():
 
 @app.route('/clubs-table')
 def clubs_table():
+    """Render the clubs table page displaying all clubs and their points."""
     return render_template('clubs_table.html', clubs=clubs)
 
 
 @app.route('/logout')
 def logout():
+    """Log out the current user and redirect to the home page."""
     return redirect(url_for('index'))
