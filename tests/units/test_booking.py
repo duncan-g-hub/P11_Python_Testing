@@ -37,6 +37,16 @@ def test_book_should_redirect_index_with_invalid_club_and_competition(client):
     assert 'Something went wrong-please try again' in response.data.decode()
 
 
+def test_book_should_redirect_welcome_page_with_valid_and_old_competition_and_valid_club(
+        client, valid_competition, valid_club):
+    competition_name = "Fall Classic"
+    club_name = valid_club["name"]
+    response = client.get(f'/book/{competition_name}/{club_name}')
+    assert response.status_code == 200
+    assert 'Welcome' in response.data.decode()
+    assert "You can't book this competition, it has already happened" in html.unescape(response.data.decode())
+
+
 def test_purchase_places_should_return_welcome_page_with_valid_competiton_and_club(
         client, valid_club, valid_competition):
     competition_name = valid_competition["name"]
