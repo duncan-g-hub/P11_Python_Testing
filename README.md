@@ -12,6 +12,7 @@ The goal of this project is to fix blocking bugs and add a feature to display cl
 - Authentication: club login via email address
 - Dashboard: display of available competitions and club points
 - Booking: place reservation for a competition with the following rules:
+  - Cannot book places in a past competition
   - Maximum 12 places per booking
   - Cannot book more places than the club's available points
   - Cannot book more places than the competition's remaining places
@@ -212,6 +213,11 @@ Main branch, corresponding to the production state of the application.
 
 ### bug/error-500-when-logging-with-wrong-email
 Used to fix a bug generating a 500 error when logging in with an incorrect email.
+
+---
+
+### bug/cannot-book-a-past-competition
+Used to fix a bug that allowed booking a place for an already past competition.
 
 ---
 
